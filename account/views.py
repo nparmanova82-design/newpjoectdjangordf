@@ -1,5 +1,5 @@
 from rest_framework.generics import CreateAPIView
-from .seriallizers import RegisterSerializer
+from .seriallizers import LoginSerializer, RefreshSerializer, RegisterSerializer
 from rest_framework import generics
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
@@ -46,3 +46,21 @@ class LogoutAPIView(APIView):
                 {'error': 'Invalid refresh Token'},
                 status=status.HTTP_400_BAD_REQUEST
             )
+        
+class LoginAPIView(APIView):
+
+    def post(self, request):
+        serializer= LoginSerializer(data=request.data)
+
+        serializer.is_valid(raise_exception=True)
+        
+        return Response(serializer.validated_data, status=status.HTTP_200_OK)
+    
+class RefreshAPIView(APIView):
+
+    def post(self, request):
+        serializer= RefreshSerializer(data=request.data)
+
+        serializer.is_valid(raise_exception=True)
+
+        return Response(serializer.validated_data)

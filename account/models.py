@@ -35,3 +35,4 @@ class CustomUser(AbstractUser):
 
     def str(self):
         return self.username
+    
